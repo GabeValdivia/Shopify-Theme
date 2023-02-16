@@ -1,39 +1,26 @@
-<div id="searchresults">  
-  <form action="/search" method="get">
-    <p><input type="text" name="q" value="{{search.terms  | escape}}" id="result-q" /> <input type="submit" value="Search" style="width:100px" /></p>
-  </form>
-  
+{% paginate search.results by 3 %}
   {% if search.performed %}
-    
-    {% paginate search.results by 10 %}  
-  
-    {% if search.results == empty %}  
-      <p>Your search for "{{search.terms | escape}}" did not yield any results</p>              
-    {% else %}  
 
-        <ol>
-        {% for item in search.results %}      
-        <li>
-          <h3>{{ item.title | link_to: item.url }}</h3>
-          {% if item.featured_image %}
-          <div class="result-image"><a href="{{item.url}}" title="">{{ item.featured_image | image_url: 'small' | image_tag }}</a></div>
-          {% endif %}
-          <span>{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</span>
-          <div style="clear:left"></div>          
-        </li>
-        {% endfor %}
-        </ol>      
+    <h1>Here's your results</h1>
 
-    {% endif %}
-    
-    
-    <p>{{ paginate | default_pagination }}</p>
-    
-    {% endpaginate %}    
-    
+    {% for result in search.results %}
+      
+      {% if result.object_type == "page"%}
+        <a href="{{ result.url }}">{{ result.title }}</a>
+      {% elsif result.object_type == "article" %}
+        <a href="{{ result.url }}">{{ result.title }}</a>
+      {% else %} 
+      <a href="{{ result.url }}">{{ result.title }}</a>
+      {% endif %}
+
+
+    {% endfor %} 
+
+  {% else %}  
+
+    <h1>Try searching for something</h1>
+
   {% endif %}
-  
-  
-  
 
-</div>
+{{ paginate | default_pagination }}
+{% endpaginate %}
