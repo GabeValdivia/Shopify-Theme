@@ -1,6 +1,6 @@
 body {
-    {% comment %} background-image: url("{{ 'shopify-logo.png' | asset_url }}"); {% endcomment %}
-    background-color: #f2f2f2;
+    background-color: {{ settings.bg }};
+    color: {{ settings.text_color }};
     max-width: 60vw;
     margin: 30px auto;
 }
