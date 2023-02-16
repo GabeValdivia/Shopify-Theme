@@ -1,23 +1,15 @@
-<div id="collections-listing">
-  {% paginate collections by 10 %}
+{% paginate collections by 3 %}
 
-    {% if collections.size > 0 %}
+  <h1>Collections</h1>
 
-    <h2>Product Collections</h2>
+  {% for collection in collections %}
+    <div>
+      <a href="{{ collection.url }}">
+        <h2>{{ collection.title }}</h2>
+        <p>Products: {{ collection.all_products_count }}</p>
+      </a>
+    </div>
+  {% endfor %}
 
-    <ul>
-      {% for collection in collections %}
-        <li class="{{ collection.handle }}-collection">
-        <strong><a href="{{ collection.url }}">{{ collection.title | escape }}</a></strong>
-        <small class="hint">{{ collection.products_count | pluralize: 'product', 'products' }}</small>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <div id="pagination">{{ paginate | default_pagination }}</div>
-
-    {% else %}
-      <p>No Collections found...</p>
-    {% endif %}
-  {% endpaginate %}
-</div>
+{{ paginate | default_pagination }}
+{% endpaginate %}
